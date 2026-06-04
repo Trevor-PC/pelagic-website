@@ -196,62 +196,108 @@
     }
     .btn-secondary:active { transform: scale(0.97); }
 
-    /* ── PROOF STRIP ── */
+        /* ── PROOF STRIP ── */
     .proof {
       position: relative;
       z-index: 2;
       background: rgba(10,22,40,0.7);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      padding: 28px 24px;
+      padding: 0;
+      overflow: hidden;
     }
 
     .proof-inner {
-      max-width: 900px;
+      max-width: 700px;
       margin: 0 auto;
+      padding: 36px 24px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
+      gap: 12px;
+      min-height: 120px;
+      position: relative;
     }
 
     .proof-label {
       font-family: 'Avenir Next', 'Avenir', 'Nunito', sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    /* Cycling stat display */
+    .proof-ticker {
+      position: relative;
+      width: 100%;
+      height: 72px;
+      overflow: hidden;
     }
 
     .proof-stat {
+      position: absolute;
+      inset: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      padding: 10px 20px;
-      background: rgba(26,111,255,0.08);
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      justify-content: center;
+      gap: 4px;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.55s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+    }
+
+    .proof-stat.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .proof-stat.exit {
+      opacity: 0;
+      transform: translateY(-28px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .proof-stat .num {
       font-family: 'Avenir Next', 'Avenir', 'Nunito', sans-serif;
-      font-size: 1.5rem;
+      font-size: 2.8rem;
       font-weight: 700;
       color: var(--teal);
       line-height: 1;
+      letter-spacing: -0.02em;
     }
 
     .proof-stat .desc {
-      font-size: 0.8rem;
+      font-size: 0.88rem;
       color: var(--muted);
-      line-height: 1.3;
+      line-height: 1.4;
+      text-align: center;
     }
 
-    .divider {
-      width: 1px;
-      height: 32px;
+    /* Dot indicators */
+    .proof-dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .proof-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
       background: var(--border);
+      transition: background 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .proof-dot.active {
+      background: var(--teal);
+      transform: scale(1.3);
     }
 
     /* ── SERVICES ── */
@@ -455,7 +501,18 @@
         transparent 70%
       );
     }
-    .global-spotlight.active { opacity: 1; }
+    .global-spotlight.active { opacity: 1; }    .orb:hover {
+      transform: scale(1.12);
+      filter: drop-shadow(0 0 20px rgba(0,212,255,0.7));
+    }
+    .orb svg { width: 100%; height: 100%; overflow: visible; }
+    @media (max-width: 600px) {
+      .orb { width: 56px; height: 56px; bottom: 18px; right: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .orb { animation: none; opacity: 1; }
+      .orb-wave, .orb-iris { transition: none !important; }
+    }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
@@ -636,6 +693,7 @@
 <!-- ── HERO ── -->
 <div class="global-spotlight" id="globalSpotlight"></div>
 
+
 <!-- ── NAV ── -->
 <nav class="nav" id="mainNav">
   <a href="#" class="nav-logo">
@@ -669,27 +727,30 @@
 <div class="proof">
   <div class="proof-inner">
     <p class="proof-label">Proven results</p>
-    <div class="divider"></div>
-    <div class="proof-stat">
-      <div class="num">2 days</div>
-      <div class="desc">→ 10 min<br/>Quote prep time</div>
+    <div class="proof-ticker" id="proofTicker">
+      <div class="proof-stat active" data-index="0">
+        <div class="num">2 days → 10 min</div>
+        <div class="desc">Quote preparation time</div>
+      </div>
+      <div class="proof-stat" data-index="1">
+        <div class="num">60–104 hrs</div>
+        <div class="desc">Admin hours saved per employee / month</div>
+      </div>
+      <div class="proof-stat" data-index="2">
+        <div class="num">10×</div>
+        <div class="desc">More leads reached with less effort</div>
+      </div>
+      <div class="proof-stat" data-index="3">
+        <div class="num">24/7</div>
+        <div class="desc">Instant responses to your customers</div>
+      </div>
     </div>
-    <div class="divider"></div>
-    <div class="proof-stat">
-      <div class="num">60–104</div>
-      <div class="desc">Admin hours saved<br/>per employee / month</div>
+    <div class="proof-dots" id="proofDots">
+      <div class="proof-dot active" data-dot="0"></div>
+      <div class="proof-dot" data-dot="1"></div>
+      <div class="proof-dot" data-dot="2"></div>
+      <div class="proof-dot" data-dot="3"></div>
     </div>
-    <div class="divider"></div>
-    <div class="proof-stat">
-      <div class="num">10×</div>
-      <div class="desc">More leads reached<br/>with less effort</div>
-    </div>
-    <div class="divider"></div>
-    <div class="proof-stat">
-      <div class="num">24/7</div>
-      <div class="desc">Instant responses<br/>to your customers</div>
-    </div>
-
   </div>
 </div>
 
@@ -879,6 +940,44 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(function (el) { observer.observe(el); });
   }
+
+  /* ── Proof strip cycling ── */
+  (function() {
+    var stats  = document.querySelectorAll('.proof-stat');
+    var dots   = document.querySelectorAll('.proof-dot');
+    var current = 0;
+    var timer;
+
+    function goTo(next) {
+      // Exit current
+      stats[current].classList.remove('active');
+      stats[current].classList.add('exit');
+      dots[current].classList.remove('active');
+      setTimeout(function() {
+        stats[current].classList.remove('exit');
+        current = next;
+        stats[current].classList.add('active');
+        dots[current].classList.add('active');
+      }, 420);
+    }
+
+    function advance() {
+      goTo((current + 1) % stats.length);
+    }
+
+    function startTimer() { timer = setInterval(advance, 2800); }
+    function resetTimer()  { clearInterval(timer); startTimer(); }
+
+    // Dot clicks
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        var idx = parseInt(this.getAttribute('data-dot'));
+        if (idx !== current) { goTo(idx); resetTimer(); }
+      });
+    });
+
+    startTimer();
+  })();
 
   /* ── Nav: scroll solidify + mobile toggle ── */
   var nav = document.getElementById('mainNav');
