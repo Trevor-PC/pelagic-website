@@ -105,7 +105,7 @@
     }
 
     .logo-img {
-      width: min(780px, 95vw);
+      width: min(780px, 72vh, 88vw);
       height: auto;
       display: block;
       margin: 0 auto;
@@ -600,7 +600,14 @@
     }
 
     /* Push hero down so it doesn't hide under the fixed nav */
-    .hero { padding-top: 140px; }
+    .hero { padding-top: 120px; padding-bottom: 60px; }
+    @media (max-height: 800px) {
+      .hero { padding-top: 88px; }
+      .logo-img { width: min(580px, 62vh, 85vw) !important; }
+    }
+    @media (max-height: 650px) {
+      .logo-img { width: min(420px, 55vh, 80vw) !important; }
+    }
 
   </style>
 </head>
