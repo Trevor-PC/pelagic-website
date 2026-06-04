@@ -438,6 +438,25 @@
       margin: 0 8px;
     }
 
+
+    /* ── GLOBAL CURSOR SPOTLIGHT ── */
+    .global-spotlight {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 90;
+      opacity: 0;
+      mix-blend-mode: screen;
+      transition: opacity 0.5s ease;
+      background: radial-gradient(
+        circle 420px at var(--gmx, 50%) var(--gmy, 50%),
+        rgba(45,140,255,0.12) 0%,
+        rgba(0,212,255,0.05) 35%,
+        transparent 70%
+      );
+    }
+    .global-spotlight.active { opacity: 1; }
+
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
@@ -615,6 +634,8 @@
 <body>
 
 <!-- ── HERO ── -->
+<div class="global-spotlight" id="globalSpotlight"></div>
+
 <!-- ── NAV ── -->
 <nav class="nav" id="mainNav">
   <a href="#" class="nav-logo">
@@ -797,15 +818,27 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isTouch = window.matchMedia('(hover: none)').matches;
 
-  /* ── 1. Cursor-following spotlight (desktop, motion-ok only) ── */
+  /* ── 1. Cursor-following spotlight (hero + global, desktop only) ── */
   var hero = document.querySelector('.hero');
-  if (hero && !reduceMotion && !isTouch) {
-    hero.addEventListener('mousemove', function (e) {
-      var r = hero.getBoundingClientRect();
-      var x = ((e.clientX - r.left) / r.width) * 100;
-      var y = ((e.clientY - r.top) / r.height) * 100;
-      hero.style.setProperty('--mx', x + '%');
-      hero.style.setProperty('--my', y + '%');
+  var globalSpot = document.getElementById('globalSpotlight');
+  if (!reduceMotion && !isTouch) {
+    document.addEventListener('mousemove', function (e) {
+      // Global spotlight follows cursor across whole page (viewport coords)
+      if (globalSpot) {
+        globalSpot.classList.add('active');
+        globalSpot.style.setProperty('--gmx', e.clientX + 'px');
+        globalSpot.style.setProperty('--gmy', e.clientY + 'px');
+      }
+      // Hero-local spotlight (stronger glow) only while over the hero
+      if (hero) {
+        var r = hero.getBoundingClientRect();
+        if (e.clientY >= r.top && e.clientY <= r.bottom) {
+          var x = ((e.clientX - r.left) / r.width) * 100;
+          var y = ((e.clientY - r.top) / r.height) * 100;
+          hero.style.setProperty('--mx', x + '%');
+          hero.style.setProperty('--my', y + '%');
+        }
+      }
     });
   }
 
