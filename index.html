@@ -729,20 +729,32 @@
     <p class="proof-label">Proven results</p>
     <div class="proof-ticker" id="proofTicker">
       <div class="proof-stat active" data-index="0">
-        <div class="num">2 days → 10 min</div>
-        <div class="desc">Quote preparation time</div>
+        <div class="num">45 min → 90 sec</div>
+        <div class="desc">Every document your team builds by hand, done in seconds.</div>
       </div>
       <div class="proof-stat" data-index="1">
-        <div class="num">60–104 hrs</div>
-        <div class="desc">Admin hours saved per employee / month</div>
+        <div class="num">60 sec</div>
+        <div class="desc">Your full weekly report, waiting in your inbox every morning.</div>
       </div>
       <div class="proof-stat" data-index="2">
-        <div class="num">10×</div>
-        <div class="desc">More leads reached with less effort</div>
+        <div class="num">2 days → 10 min</div>
+        <div class="desc">Quotes that used to take days, delivered before the client hangs up.</div>
       </div>
       <div class="proof-stat" data-index="3">
+        <div class="num">1 agent.</div>
+        <div class="desc">Unlimited capacity. One AI handles the repetitive work of an entire admin team, around the clock.</div>
+      </div>
+      <div class="proof-stat" data-index="4">
+        <div class="num">60–104 hrs</div>
+        <div class="desc">Admin hours saved per employee, per month.</div>
+      </div>
+      <div class="proof-stat" data-index="5">
+        <div class="num">10×</div>
+        <div class="desc">More leads reached with less effort.</div>
+      </div>
+      <div class="proof-stat" data-index="6">
         <div class="num">24/7</div>
-        <div class="desc">Instant responses to your customers</div>
+        <div class="desc">Instant responses to your customers.</div>
       </div>
     </div>
     <div class="proof-dots" id="proofDots">
@@ -750,6 +762,9 @@
       <div class="proof-dot" data-dot="1"></div>
       <div class="proof-dot" data-dot="2"></div>
       <div class="proof-dot" data-dot="3"></div>
+      <div class="proof-dot" data-dot="4"></div>
+      <div class="proof-dot" data-dot="5"></div>
+      <div class="proof-dot" data-dot="6"></div>
     </div>
   </div>
 </div>
@@ -965,7 +980,7 @@
       goTo((current + 1) % stats.length);
     }
 
-    function startTimer() { timer = setInterval(advance, 2800); }
+    function startTimer() { timer = setInterval(advance, 3200); }
     function resetTimer()  { clearInterval(timer); startTimer(); }
 
     // Dot clicks
